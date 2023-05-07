@@ -1,32 +1,23 @@
 node {
-    stage('Build') {
-        checkout scm
-        docker.image('python:2-alpine').inside {
+    withDockerContainer('python:2-alpine') {
+        stage('Build') {
+            checkout scm
             sh 'python -m py_compile sources/add2vals.py sources/calc.py'
         }
     }
-
-    stage('Test') {
-        checkout scm
-        docker.image('qnib/pytest').inside {
-            sh 'py.test --verbose --junit-xml test-reports/results.xml sources/test_calc.py'
-        }
-        post {
-            always {
-                junit 'test-reports/results.xml'
-            }
+    withDockerContainer('qnib/pytest') {
+        stage('Test') {
+            checkout scm
+            sh 'py.test --junit-xml test-reports/results.xml sources/test_calc.py'
+            junit 'test-reports/results.xml'
         }
     }
-
-    stage('Deliver') {
+    stage('Deploy') {
+        input message: 'Lanjutkan ke tahap Deploy?'
         checkout scm
-        docker.image('cdrx/pyinstaller-linux:python2').inside {
-            sh 'pyinstaller --onefile sources/add2vals.py'
-        }
-        post {
-            success {
-                archiveArtifacts 'dist/add2vals'
-            }
-        }
+        sh 'docker run --rm -v /var/jenkins_home/workspace/submission-cicd-pipeline-wilson_oey/sources:/src cdrx/pyinstaller-linux:python2 \'pyinstaller -F add2vals.py\''
+        archiveArtifacts artifacts: 'sources/add2vals.py', followSymlinks: false
+        sh 'docker run --rm -v /var/jenkins_home/workspace/submission-cicd-pipeline-wilson_oey/sources:/src cdrx/pyinstaller-linux:python2 \'rm -rf build dist\''
+        sleep time: 1, unit: 'MINUTES'
     }
 }

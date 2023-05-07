@@ -8,7 +8,7 @@ pipeline {
                 }
             }
             steps {
-                sh 'python -m py_compile /home/simple-python-pyinstaller-app/sources/add2vals.py sources/calc.py'
+                sh 'python -m py_compile /home/kawaiii0_/simple-python-pyinstaller-app/sources/add2vals.py sources/calc.py'
             }
         }
         stage('Test') {

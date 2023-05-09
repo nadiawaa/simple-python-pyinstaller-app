@@ -1,0 +1,121 @@
+Started by user Dicoding Indonesia
+Obtained Jenkinsfile from git /home/simple-python-pyinstaller-app
+[Pipeline] Start of Pipeline
+[Pipeline] stage
+[Pipeline] { (Build)
+[Pipeline] node
+Running on Jenkins in /var/jenkins_home/workspace/submission-cicd-pipeline-nadiawaa
+[Pipeline] {
+[Pipeline] checkout
+Selected Git installation does not exist. Using Default
+The recommended git tool is: NONE
+No credentials specified
+ > git rev-parse --resolve-git-dir /var/jenkins_home/workspace/submission-cicd-pipeline-nadiawaa/.git # timeout=10
+Fetching changes from the remote Git repository
+ > git config remote.origin.url /home/simple-python-pyinstaller-app # timeout=10
+Fetching upstream changes from /home/simple-python-pyinstaller-app
+ > git --version # timeout=10
+ > git --version # 'git version 2.30.2'
+ > git fetch --tags --force --progress -- /home/simple-python-pyinstaller-app +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
+Checking out Revision dd758c29fe4a614f9dd88442f5988396598b0dd4 (refs/remotes/origin/master)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f dd758c29fe4a614f9dd88442f5988396598b0dd4 # timeout=10
+Commit message: "revamp scripted pipeline to declarative"
+ > git rev-list --no-walk 0760dfac833bd7f2c163e60d1ba3a75b54b442eb # timeout=10
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] isUnix
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] sh
++ docker inspect -f . python:2-alpine
+.
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] withDockerContainer
+Jenkins does not seem to be running inside a container
+$ docker run -t -d -u 1000:1000 -w /var/jenkins_home/workspace/submission-cicd-pipeline-nadiawaa -v /var/jenkins_home/workspace/submission-cicd-pipeline-nadiawaa:/var/jenkins_home/workspace/submission-cicd-pipeline-nadiawaa:rw,z -v /var/jenkins_home/workspace/submission-cicd-pipeline-nadiawaa@tmp:/var/jenkins_home/workspace/submission-cicd-pipeline-nadiawaa@tmp:rw,z -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** python:2-alpine cat
+$ docker top 6361e56923230bf3aefe08aef5cffb3fa2c3984eb91f9af908fc1f831f5643f4 -eo pid,comm
+[Pipeline] {
+[Pipeline] sh
++ python -m py_compile sources/add2vals.py sources/calc.py
+[Pipeline] }
+$ docker stop --time=1 6361e56923230bf3aefe08aef5cffb3fa2c3984eb91f9af908fc1f831f5643f4
+$ docker rm -f 6361e56923230bf3aefe08aef5cffb3fa2c3984eb91f9af908fc1f831f5643f4
+[Pipeline] // withDockerContainer
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Test)
+[Pipeline] node
+Running on Jenkins in /var/jenkins_home/workspace/submission-cicd-pipeline-nadiawaa
+[Pipeline] {
+[Pipeline] checkout
+Selected Git installation does not exist. Using Default
+The recommended git tool is: NONE
+No credentials specified
+ > git rev-parse --resolve-git-dir /var/jenkins_home/workspace/submission-cicd-pipeline-nadiawaa/.git # timeout=10
+Fetching changes from the remote Git repository
+ > git config remote.origin.url /home/simple-python-pyinstaller-app # timeout=10
+Fetching upstream changes from /home/simple-python-pyinstaller-app
+ > git --version # timeout=10
+ > git --version # 'git version 2.30.2'
+ > git fetch --tags --force --progress -- /home/simple-python-pyinstaller-app +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
+Checking out Revision dd758c29fe4a614f9dd88442f5988396598b0dd4 (refs/remotes/origin/master)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f dd758c29fe4a614f9dd88442f5988396598b0dd4 # timeout=10
+Commit message: "revamp scripted pipeline to declarative"
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] isUnix
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] sh
++ docker inspect -f . qnib/pytest
+.
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] withDockerContainer
+Jenkins does not seem to be running inside a container
+$ docker run -t -d -u 1000:1000 -w /var/jenkins_home/workspace/submission-cicd-pipeline-nadiawaa -v /var/jenkins_home/workspace/submission-cicd-pipeline-nadiawaa:/var/jenkins_home/workspace/submission-cicd-pipeline-nadiawaa:rw,z -v /var/jenkins_home/workspace/submission-cicd-pipeline-nadiawaa@tmp:/var/jenkins_home/workspace/submission-cicd-pipeline-nadiawaa@tmp:rw,z -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** qnib/pytest cat
+$ docker top 89db4b848007702737e3a3a5bfad7afb8f4104d2f5666e9ac33a16a2b9728365 -eo pid,comm
+[Pipeline] {
+[Pipeline] sh
++ py.test --verbose --junit-xml test-reports/results.xml sources/test_calc.py
+============================= test session starts ==============================
+platform linux2 -- Python 2.7.14, pytest-3.5.0, py-1.5.3, pluggy-0.6.0 -- /usr/local/bin/python
+cachedir: .pytest_cache
+rootdir: /var/jenkins_home/workspace/submission-cicd-pipeline-nadiawaa, inifile:
+plugins: cov-2.5.1
+collecting ... collected 5 items
+
+sources/test_calc.py::TestCalc::test_add_floats PASSED                   [ 20%]
+sources/test_calc.py::TestCalc::test_add_integers PASSED                 [ 40%]
+sources/test_calc.py::TestCalc::test_add_string_and_integer PASSED       [ 60%]
+sources/test_calc.py::TestCalc::test_add_string_and_number PASSED        [ 80%]
+sources/test_calc.py::TestCalc::test_add_strings PASSED                  [100%]
+
+ generated xml file: /var/jenkins_home/workspace/submission-cicd-pipeline-nadiawaa/test-reports/results.xml 
+=========================== 5 passed in 0.01 seconds ===========================
+Post stage
+[Pipeline] junit
+Recording test results
+[Checks API] No suitable checks publisher found.
+[Pipeline] }
+$ docker stop --time=1 89db4b848007702737e3a3a5bfad7afb8f4104d2f5666e9ac33a16a2b9728365
+$ docker rm -f 89db4b848007702737e3a3a5bfad7afb8f4104d2f5666e9ac33a16a2b9728365
+[Pipeline] // withDockerContainer
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] End of Pipeline
+Finished: SUCCESS

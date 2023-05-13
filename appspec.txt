@@ -1,0 +1,9 @@
+version: 0.0
+os: linux
+
+hooks:
+
+  ApplicationStart:
+    - location: sources/start_server.sh
+      timeout: 300
+      runas: root
